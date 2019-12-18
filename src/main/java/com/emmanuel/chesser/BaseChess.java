@@ -14,7 +14,7 @@ public abstract class BaseChess {
     public static final int[] rows = new int[]{8, 7, 6, 5, 4, 3, 2, 1};
     public static final char[] columns = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'};
     public Map<Piece.COLOR, Map<String, Boolean>> castle_state = new HashMap<>();
-    final List<Character> promotion_pieces = new ArrayList<>(Arrays.asList('q', 'r', 'b', 'n'));
+    final List<Character> promotion_pieces = new ArrayList<>(Arrays.asList('Q', 'R', 'B', 'N'));
     private int max_move_count_before_capture = 51;
     private int move_count_before_capture = 0;
     char turn = 'w';
@@ -482,13 +482,13 @@ public abstract class BaseChess {
 
                 // System.out.println(String.format("Promotes %s on %s to a %c", piece, from,piece_promotion));
                 switch (piece_promotion) {
-                    case 'q':
+                    case 'Q':
                         board.put(to, new Queen(piece.color, 'q'));
-                    case 'n':
+                    case 'N':
                         board.put(to, new Knight(piece.color, 'n'));
-                    case 'b':
+                    case 'B':
                         board.put(to, new Bishop(piece.color, 'b'));
-                    case 'r':
+                    case 'R':
                         board.put(to, new Rook(piece.color, 'r'));
                 }
             }
@@ -658,7 +658,6 @@ public abstract class BaseChess {
                         }
                     }
 
-
                     for (Coordinate my_move : piece_moves) {
                         //move the piece temporarily
                         Piece captured_piece = board.get(my_move.toString());
@@ -715,6 +714,35 @@ public abstract class BaseChess {
                     final_moves_1.put(piece, items);
                 }
             }
+
+            //add promotion moves
+            System.out.println(final_moves_1);
+
+            for (String local_move : final_moves_1.keySet()) {
+
+                for (int j = 0; j < final_moves.get(local_move).size(); j++) {
+                    Coordinate suggested_piece_coordinate = final_moves.get(local_move).get(j);
+                    Piece suggested_piece = board.get(local_move);
+
+                    if (
+                            suggested_piece instanceof Pawn
+                                    && (suggested_piece_coordinate.row == 8 || (suggested_piece_coordinate.row == 1))
+                    ) {
+                        //this is a pawn promotion
+                        System.out.printf("%s %s is getting promoted to %s %n", suggested_piece, local_move, suggested_piece_coordinate);
+                        List<String> promotion_options = new ArrayList<>();
+
+                        for (int k = 0; k < promotion_pieces.size(); k++) {
+                            promotion_options.add(String.format("%s=%c", suggested_piece_coordinate, promotion_pieces.get(k)));
+                        }
+
+                        System.out.println(promotion_options);
+                    }
+
+                }
+            }
+
+
             return final_moves_1;
         } else return final_moves;
     }
