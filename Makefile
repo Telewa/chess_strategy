@@ -1,8 +1,15 @@
 # create a deployment
-create_deployment:
+deploy:
 	kubectl create -f deployments/chess_strategy.yml
+	kubectl create -f services/chess_strategy.yml
+	minikube service frontend --url
+	minikube service backend --url
 
-create_service:
+
+restart_frontend:
+	kubectl delete  service frontend
+	kubectl delete  deployment frontend
+	kubectl create -f deployments/chess_strategy.yml
 	kubectl create -f services/chess_strategy.yml
 
 service_status:
@@ -12,4 +19,8 @@ deployment_status:
 	kubectl get deployments
 
 get_url:
-	minikube service chessstrategy --url
+	minikube service frontend --url
+
+clean:
+	kubectl delete  deployment backend frontend
+	kubectl delete  service backend frontend
