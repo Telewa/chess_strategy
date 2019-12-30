@@ -1,0 +1,16 @@
+{
+  "name": "chesser-frontend",
+  "version": "1.0.0",
+  "description": "This is the front end for the chesser app",
+  "main": "index.js",
+  "dependencies": {
+    "@chrisoakman/chessboardjs": "^1.0.0",
+    "chess.js": "^0.10.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Telewa Emmanuel",
+  "license": "ISC"
+}

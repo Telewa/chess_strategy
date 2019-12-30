@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chessstrategy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chessstrategy
+  template:
+    metadata:
+      labels:
+        app: chessstrategy
+        tier: backend
+        track: production
+    spec:
+      containers:
+        - name: chessstrategy
+          image: "chesser:1.0.0"
+          ports:
+            - name: chessstrategy
+              containerPort: 8080
