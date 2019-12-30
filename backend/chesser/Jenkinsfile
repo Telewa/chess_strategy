@@ -3,7 +3,7 @@ pipeline {
 	stages {
         stage('Build') {
             steps {
-				docker build -t chesser-backend .
+				docker.build("chesser-backend:latest")
             }
         }
 
