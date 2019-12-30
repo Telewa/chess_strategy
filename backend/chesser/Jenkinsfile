@@ -6,17 +6,5 @@ pipeline {
 				docker.build("chesser-backend:latest")
             }
         }
-
-        stage('Tag') {
-            steps {
-                docker tag chesser-backend:latest 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-backend:latest
-            }
-        }
-
-        stage('Push') {
-            steps {
-                docker push 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-backend:latest
-            }
-        }
     }
 }
