@@ -1,13 +1,10 @@
 pipeline {
-	agent {
-	    dockerfile {
-	        dir 'backend/chesser'
-	    }
-	}
+	agent any
 	stages {
         stage('Build') {
             steps {
                 withEnv(["PATH=$PATH:~/.local/bin"]){
+				    sh 'ls -la'
 				    sh 'docker images'
 				}
             }
