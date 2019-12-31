@@ -11,17 +11,5 @@ pipeline {
 				sh 'cd backend/chesser && docker build -t chesser-backend .'
             }
         }
-
-        stage('Tag') {
-            steps {
-                sh 'docker tag chesser-backend:latest 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-backend:latest'
-            }
-        }
-
-        stage('Push') {
-            steps {
-                sh 'docker push 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-backend:latest'
-            }
-        }
     }
 }
