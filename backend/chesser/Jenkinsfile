@@ -5,9 +5,4 @@ pipeline {
 	        args '-t chesser-backend'
 	    }
 	}
-	stages {
-        stage('Build') {
-
-        }
-    }
 }
