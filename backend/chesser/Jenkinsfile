@@ -5,4 +5,11 @@ pipeline {
 	        args '-t chesser-backend'
 	    }
 	}
+	stages {
+        stage('Build') {
+            steps {
+				sh 'cd backend/chesser && ls -la '
+            }
+        }
+    }
 }
