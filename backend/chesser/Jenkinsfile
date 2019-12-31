@@ -1,7 +1,7 @@
 pipeline {
 	agent {
-	    dockerfile {
-	        dir 'backend/chesser'
+	    docker {
+	        image 'openjdk:11-jdk'
 	    }
 	}
 	stages {
