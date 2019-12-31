@@ -2,7 +2,6 @@ pipeline {
 	agent {
 	    dockerfile {
 	        dir 'backend/chesser'
-	        args '-t chesser-backend'
 	    }
 	}
 	stages {
