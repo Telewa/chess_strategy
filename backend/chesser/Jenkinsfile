@@ -1,12 +1,21 @@
 pipeline {
 	agent any
 	stages {
-        stage('Build') {
+        stage('Build Backend') {
             steps {
-                withEnv(["PATH=$PATH:~/.local/bin"]){
-				    sh 'ls -la'
-				    sh 'cd backend/chesser && docker build -t chesser:1.0.0 . && docker images | grep chess'
-				}
+                sh 'docker build -t chesser:1.0.0 backend/chesser'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                sh 'docker build -t chesser-frontend:1.0.0 frontend'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                sh 'docker images | grep chesser'
             }
         }
     }
