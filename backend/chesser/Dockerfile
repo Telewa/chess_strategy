@@ -2,7 +2,7 @@
 FROM openjdk:11-jdk
 
 # Dockerfile config
-LABEL Name="chesser"
+LABEL Name="chesser-backend"
 LABEL Version="1.0.0"
 LABEL Maintainer="Emmanuel Telewa <emmanuelt2009@gmail.com>"
 
