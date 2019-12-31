@@ -7,7 +7,9 @@ pipeline {
 	stages {
         stage('Build') {
             steps {
-				sh 'docker images'
+                withEnv(["PATH=$PATH:~/.local/bin"]){
+				    sh 'docker images'
+				}
             }
         }
     }
