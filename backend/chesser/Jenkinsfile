@@ -3,19 +3,13 @@ pipeline {
 	stages {
         stage('Build Backend') {
             steps {
-                sh 'docker build -t chesser:1.0.0 backend/chesser'
-            }
-        }
-
-        stage('Build Frontend') {
-            steps {
-                sh 'docker build -t chesser-frontend:1.0.0 frontend'
+                sh 'docker build -t chesser-backend:1.0.0 backend/chesser'
             }
         }
 
         stage('Sanity Check') {
             steps {
-                sh 'docker images | grep chesser'
+                sh 'docker images | grep chesser-backend'
             }
         }
     }

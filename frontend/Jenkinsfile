@@ -1,25 +1,15 @@
 pipeline {
-	agent {
-		docker {
-
-		}
-	}
+	agent any
 	stages {
-        stage('Build') {
+        stage('Build Frontend') {
             steps {
-				docker build -t chesser-frontend .
+                sh 'docker build -t chesser-frontend:1.0.0 frontend'
             }
         }
 
-        stage('Tag') {
+        stage('Sanity Check') {
             steps {
-                docker tag chesser-frontend:latest 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-frontend:latest
-            }
-        }
-
-        stage('Push') {
-            steps {
-                docker push 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-frontend:latest
+                sh 'docker images | grep chesser-frontend'
             }
         }
     }
