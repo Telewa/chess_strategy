@@ -21,6 +21,7 @@ pipeline {
 
         stage('Push the image!') {
             steps {
+                sh '$(aws ecr get-login --no-include-email --region us-west-2)'
                 sh 'docker push 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-frontend:1.0.0'
             }
         }
