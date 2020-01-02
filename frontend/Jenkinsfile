@@ -12,5 +12,18 @@ pipeline {
                 sh 'docker images | grep chesser-frontend'
             }
         }
+
+        stage('Tag the image!') {
+            steps {
+                sh 'docker tag chesser-frontend:1.0.0 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-frontend:1.0.0'
+            }
+        }
+
+        stage('Push the image!') {
+            steps {
+                sh 'docker push 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-frontend:1.0.0'
+            }
+        }
+
     }
 }
