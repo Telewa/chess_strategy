@@ -1,6 +1,14 @@
 pipeline {
 	agent any
 	stages {
+        stage('Checkout') {
+            steps {
+                git url: "${pipelineParams.scmUrl}",
+                branch: "${pipelineParams.branch}",
+                credentialsId: 'github'
+            }
+        }
+
         stage('Build Backend') {
             steps {
                 sh 'docker build -t chesser-backend:1.0.0 backend/chesser'
