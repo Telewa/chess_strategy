@@ -19,6 +19,12 @@ pipeline {
             }
         }
 
+        stage('cleanup docker images') {
+            steps {
+                sh 'docker system prune -f'
+            }
+        }
+
         stage('Push the image!') {
             steps {
                 sh '$(aws ecr get-login --no-include-email --region us-west-2)'
