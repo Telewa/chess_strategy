@@ -2,8 +2,8 @@
 deploy:
 	kubectl create -f deployments/chess_strategy.yml
 	kubectl create -f services/chess_strategy.yml
-	minikube service frontend --url
-	minikube service backend --url
+	#minikube service frontend --url
+	#minikube service backend --url
 
 
 restart_frontend:
