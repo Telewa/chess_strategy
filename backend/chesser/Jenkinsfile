@@ -1,9 +1,13 @@
 pipeline {
+    environment {
+        registry = "emmanueltelewa/chesser"
+        registryCredential = 'dockerhub'
+    }
 	agent any
 	stages {
-        stage('Build Backend') {
+        stage('Build Frontend') {
             steps {
-                sh 'docker build -t chesser-backend:1.0.0 backend/chesser'
+                sh 'docker build -t chesser-frontend-1-0-0 backend'
             }
         }
 
@@ -15,7 +19,7 @@ pipeline {
 
         stage('Tag the image!') {
             steps {
-                sh 'docker tag chesser-backend:1.0.0 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-backend:1.0.0'
+                sh 'docker tag chesser-backend-1-0-0 emmanueltelewa/chesser:chesser-backend-1-0-0'
             }
         }
 
@@ -25,11 +29,15 @@ pipeline {
             }
         }
 
-        stage('Push the image!') {
+        stage('Push the image to dockerhub!') {
             steps {
-                sh '$(aws ecr get-login --no-include-email --region us-west-2)'
-                sh 'docker push 759850685393.dkr.ecr.us-west-2.amazonaws.com/chesser-backend:1.0.0'
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        sh 'docker push emmanueltelewa/chesser:chesser-backend-1-0-0'
+                    }
+                }
             }
         }
+
     }
 }
