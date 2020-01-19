@@ -31,7 +31,11 @@ pipeline {
 
         stage('Push the image to dockerhub!') {
             steps {
-                sh 'docker push emmanueltelewa/chesser:chesser-frontend-1-0-0'
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        sh 'docker push emmanueltelewa/chesser:chesser-frontend-1-0-0'
+                    }
+                }
             }
         }
 
