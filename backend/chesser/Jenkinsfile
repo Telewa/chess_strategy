@@ -7,7 +7,7 @@ pipeline {
 	stages {
         stage('Build Frontend') {
             steps {
-                sh 'docker build -t chesser-backend-1-0-0 backend'
+                sh 'docker build -t chesser-backend-1-0-0 backend/chesser'
             }
         }
 
