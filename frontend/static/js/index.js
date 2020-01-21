@@ -19,7 +19,7 @@ $(function () {
         var fen = game.fen();
 
         $.ajax({
-            url: "/material_random",
+            url: "/level_random",
             type: "GET",
             data: {
                 fen: fen
