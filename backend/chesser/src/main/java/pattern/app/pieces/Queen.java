@@ -1,8 +1,8 @@
 package pattern.app.pieces;
 
+import pattern.app.team.Team;
 import pattern.app.utils.Color;
 import pattern.app.utils.Coordinate;
-import pattern.app.team.Team;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,10 @@ public class Queen extends Piece {
 
     protected boolean is_long_range_piece() {
         return true;
+    }
+
+    public int value() {
+        return 9;
     }
 
     public List<String> possible_moves() {

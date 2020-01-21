@@ -21,6 +21,8 @@ public class Rook extends Piece {
         return true;
     }
 
+    public int value(){return 5;}
+
     public List<String> possible_moves() {
 
         List<String> possible_moves = new ArrayList<>();

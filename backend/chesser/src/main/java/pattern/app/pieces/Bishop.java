@@ -21,6 +21,8 @@ public class Bishop extends Piece {
         super(coordinate, team, color);
     }
 
+    public int value(){return 3;}
+
     public List<String> possible_moves() {
 
         List<String> possible_moves = new ArrayList<>();

@@ -392,5 +392,18 @@ public abstract class CommonTeam {
         return castle_options;
     }
 
+    public int value() {
+        int value = 0;
+        List<String> board_keys = new ArrayList<>(board.keySet());
+        for (String coord : board_keys) {
+
+            Piece piece = board.get(new Coordinate(coord).toString());
+            if (piece != null && piece.team == this) {
+                value += piece.value();
+            }
+
+        }
+        return value;
+    }
 
 }

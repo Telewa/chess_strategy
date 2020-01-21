@@ -21,6 +21,8 @@ public class King extends Piece {
         return false;
     }
 
+    public int value(){return 999;}
+
     public List<String> possible_moves() {
 
         List<String> possible_moves = new ArrayList<>();

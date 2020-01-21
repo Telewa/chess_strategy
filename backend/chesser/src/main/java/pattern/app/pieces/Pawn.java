@@ -34,6 +34,8 @@ public class Pawn extends Piece {
         return (myself.coordinate.row == 2 || myself.coordinate.row == 7) && myself.coordinate.row != myself.team.home_space()[1];
     }
 
+    public int value(){return 1;}
+
     public List<String> possible_moves() {
 
         List<String> possible_moves = new ArrayList<>();

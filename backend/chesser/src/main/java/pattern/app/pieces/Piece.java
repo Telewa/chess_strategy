@@ -29,6 +29,13 @@ public abstract class Piece {
     }
 
     /**
+     * Every piece has a value
+     *
+     * @return
+     */
+    public abstract int value();
+
+    /**
      * @return The list of coordinates that this piece can shoot
      */
     public abstract List<String> possible_moves();

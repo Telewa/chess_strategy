@@ -18,6 +18,9 @@ public class MaterialRandomChess extends Chess {
     public MaterialRandomChess(String fen) {
         super(fen);
     }
+    public MaterialRandomChess() {
+        super();
+    }
 
     public String generate_next_move() {
         List<String> possible_moves = possible_moves();
