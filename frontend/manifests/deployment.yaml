@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        track: production
+    spec:
+      containers:
+        - image: 'emmanueltelewa/chesser:chesser-frontend-1-0-0'
+          imagePullPolicy: Always
+          name: frontend
+          ports:
+            - containerPort: 8080
+              name: frontend
+      imagePullSecrets:
+        - name: regcred

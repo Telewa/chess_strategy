@@ -240,6 +240,11 @@ public abstract class Chess {
             }
             board.put(to_coord, original_piece);
 
+            //todo
+            //what if it is en-passant?
+
+            //what if it is castling?
+
             //update whose turn to play
             turn = turn == 'w' ? 'b' : 'w';
             move_made = true;
