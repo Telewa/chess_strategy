@@ -1,5 +1,5 @@
 # base image
-FROM openjdk:11-alpine
+FROM openjdk:14-alpine
 
 # Dockerfile config
 LABEL Name="chesser-backend"
