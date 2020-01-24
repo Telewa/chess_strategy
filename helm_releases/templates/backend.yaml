@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
     name: backend-deployment
 spec:
-    replicas: {{.Values.backend.scale}}
+    replicas: {{.Values.backend.replicas}}
     selector:
         matchLabels:
             app: backend-deployment

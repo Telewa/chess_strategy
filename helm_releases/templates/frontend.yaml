@@ -3,7 +3,7 @@ apiVersion: apps/v1
 metadata:
     name: frontend-deployment
 spec:
-    replicas: {{.Values.frontend.scale}}
+    replicas: {{.Values.frontend.replicas}}
     selector:
         matchLabels:
             app: frontend-deployment

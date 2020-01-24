@@ -2,10 +2,10 @@ backend:
   image: "emmanueltelewa/chesser:chesser-backend-1-0-0"
   containerPort: 8080
   port: 8080
-  scale: 3
+  replicas: 2
 
 frontend:
   image: "emmanueltelewa/chesser:chesser-frontend-1-0-0"
   containerPort: 8080
   port: 8081
-  scale: 2
+  replicas: 2
