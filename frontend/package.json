@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "@chrisoakman/chessboardjs": "^1.0.0",
+    "bootstrap": "^4.4.1",
     "chess.js": "^0.10.2"
   },
   "devDependencies": {},
