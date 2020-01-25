@@ -33,7 +33,7 @@ public abstract class Chess {
     protected char turn = 'w';
     protected int full_move_number = 1;
 
-    protected void reset_no_fen(){
+    protected void reset_no_fen() {
         //static variables stuff
         board = new HashMap<>();
         en_passant_target_square = "-";
@@ -54,7 +54,7 @@ public abstract class Chess {
         castle_state.put(Color.WHITE, white_castle);
     }
 
-    protected void reset_with_fen(String fen){
+    protected void reset_with_fen(String fen) {
         //static variables stuff
         board = new HashMap<>();
         en_passant_target_square = "-";
@@ -206,50 +206,140 @@ public abstract class Chess {
      * Make a move on the board!
      *
      * @param move The String representation of the move
-     * @return True if move was made, False otherwise
      */
-    public boolean makeMove(String move) {
-        Pattern move_pattern = Pattern.compile("([KkQqBbNnRrPp])([a-h][1-8])[x\\-]([a-h][1-8])(=([QNBRqnrb]))?[+#]?");
+    public void makeMove(String move) {
+        Pattern move_pattern = Pattern.compile("([KkQqBbNnRrPp])([a-h][1-8])([x\\-])([a-h][1-8])(=([QNBRqnrb]))?[+#]?");
         Matcher m = move_pattern.matcher(move);
         boolean move_made = false;
         if (m.matches()) {
 
             String from_coord = String.format("%s", m.group(2));
-            String to_coord = String.format("%s", m.group(3));
+            String to_coord = String.format("%s", m.group(4));
 
             Piece original_piece = board.get(from_coord);
             Piece dest_piece = board.get(to_coord);
 
-            board.put(from_coord, null);
-            original_piece.setCoordinate(new Coordinate(to_coord));
+            //if its a pawn making two steps, we need to update the en_passant_target_square
+            if (original_piece instanceof Pawn && Math.abs(to_coord.charAt(1) - from_coord.charAt(1)) == 2) {
+                char behind_column = to_coord.charAt(0);//same column
+                int current_row = Character.getNumericValue(from_coord.charAt(1));
 
+                int behind_row = turn == 'w' ? current_row + 1 : current_row - 1;
+                en_passant_target_square = String.format("%c%d", behind_column, behind_row);
+            } else {
+                en_passant_target_square = "-";
+            }
+
+            //what if it is en-passant?
+            if (original_piece instanceof Pawn && dest_piece == null && m.group(3).equals("x")) {
+                //remove the adjacent pawn on the side of the capture
+
+                Pattern dest_square = Pattern.compile("([a-h])[1-8]");
+                Matcher mm = dest_square.matcher(to_coord);
+                if (mm.matches()) {
+                    int row = original_piece.getCoordinate().row;//same row
+                    char column = mm.group(1).charAt(0);//column of destination square
+
+                    String captured_pawn_coord = String.format("%c%d", column, row);
+                    Piece captured_pawn = board.get(captured_pawn_coord);
+                    assert (captured_pawn instanceof Pawn && captured_pawn.team != original_piece.team);
+                    board.put(captured_pawn_coord, null);
+                }
+
+            }
 
             //what if it was a promotion?
-            try{
-                char promote_to =Character.toLowerCase(m.group(5).charAt(0));
+            try {
+                char promote_to = Character.toLowerCase(m.group(6).charAt(0));
 
-                switch (promote_to){
-                    case 'q': original_piece= new Queen(new Coordinate(to_coord), original_piece.team, original_piece.color); break;
-                    case 'r': original_piece= new Rook(new Coordinate(to_coord), original_piece.team, original_piece.color); break;
-                    case 'n': original_piece= new Knight(new Coordinate(to_coord), original_piece.team, original_piece.color); break;
-                    case 'b': original_piece= new Bishop(new Coordinate(to_coord), original_piece.team, original_piece.color); break;
+                switch (promote_to) {
+                    case 'q':
+                        original_piece = new Queen(new Coordinate(to_coord), original_piece.team, original_piece.color);
+                        break;
+                    case 'r':
+                        original_piece = new Rook(new Coordinate(to_coord), original_piece.team, original_piece.color);
+                        break;
+                    case 'n':
+                        original_piece = new Knight(new Coordinate(to_coord), original_piece.team, original_piece.color);
+                        break;
+                    case 'b':
+                        original_piece = new Bishop(new Coordinate(to_coord), original_piece.team, original_piece.color);
+                        break;
                 }
-            }
-            catch (Exception ignored){
+            } catch (Exception ignored) {
 
             }
+            board.put(from_coord, null);
+            original_piece.setCoordinate(new Coordinate(to_coord));
             board.put(to_coord, original_piece);
 
-            //todo
-            //what if it is en-passant?
+            if(m.group(3).equals("x") || original_piece instanceof Pawn){
+                move_count_before_capture = 0;
+            }
+            else move_count_before_capture++;
 
-            //what if it is castling?
+            move_made = true;
+        }
+        //what if it is castling?
+        else if (move.equals("O-O") || move.equals("O-O-O")) {
+
+            char old_rook_column;
+            char new_king_column;
+            char new_rook_column;
+            int row;
+            if (turn == 'w') {
+                row = 1;
+                Map<String, Boolean> white_castle = new HashMap<>();
+                white_castle.put("long", false);
+                white_castle.put("short", false);
+
+                castle_state.put(Color.WHITE, white_castle);
+
+            } else {
+                row = 8;
+                Map<String, Boolean> black_castle = new HashMap<>();
+                black_castle.put("long", false);
+                black_castle.put("short", false);
+
+                castle_state.put(Color.BLACK, black_castle);
+            }
+
+            if (move.equals("O-O")) {
+                new_king_column = 'g';
+                old_rook_column = 'h';
+                new_rook_column = 'f';
+            } else {
+                new_king_column = 'c';
+                old_rook_column = 'a';
+                new_rook_column = 'd';
+            }
+
+            Piece king = board.get(String.format("e%d", row));
+            String new_king_coord = String.format("%c%d", new_king_column, row);
+            king.setCoordinate(new Coordinate(new_king_coord));
+            board.put(new_king_coord, king);
+            board.put(String.format("e%d", row), null);
+
+
+            Piece rook = board.get(String.format("%c%d", old_rook_column, row));
+            String new_right_rook_coord = String.format("%c%d", new_rook_column, row);
+            rook.setCoordinate(new Coordinate(new_right_rook_coord));
+            board.put(new_right_rook_coord, rook);
+            board.put(String.format("%c%d", old_rook_column, row), null);
 
             //update whose turn to play
-            turn = turn == 'w' ? 'b' : 'w';
+            move_count_before_capture++;
             move_made = true;
         }
 
-        return move_made;
+        //update whose turn to play
+        if (turn == 'w') {
+            turn = 'b';
+        } else {
+            turn = 'w';
+            full_move_number++;
+        }
+
+        assert move_made;
     }
 }
